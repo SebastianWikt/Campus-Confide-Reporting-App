@@ -1,16 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Google Sign In</title>
 
-{% block title %}Login Here{% endblock %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card my-5">
+                    <div class="card-body">
+                        {% load socialaccount %}
+                        <h2 class="text-center">Hoo Knows</h2>
+                        <div class="text-center my-3">
+                            <a href="/accounts/google/login/?process=login&next=/" class="btn btn-danger">Login With Google</a>
+
+
+                        </div>
+
+                        {% if user.is_authenticated %}
+                        <h2 class="text-center">Welcome {{ user.username }}</h2>
+                        <div class="text-center my-3">
+                            <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 
 
 
-{% block content %}
-<form method="post">
-    {% csrf_token %}
-    Username: <input type="text" name="username"><br>
-    Password: <input type="password" name="password"><br>
-    <input type="submit" value="Login">
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
-</form>
-{% endblock %}

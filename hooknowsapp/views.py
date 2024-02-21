@@ -1,22 +1,21 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
-
-
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            return render(request, 'hooknowsapp/login.html', {'error': 'Invalid username or password'})
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('/home')
     else:
         return render(request, 'hooknowsapp/login.html')
 
+@login_required
+def home(request):
+    return render(request, 'hooknowsapp/homepage.html')
 
-def homepage(request):
-    return render(request, 'hooknowsapp/homepage.html', {'username': request.user.username})
+
+def logout_view(request):
+    logout(request)
+    return redirect("/")
+
