@@ -32,7 +32,7 @@
             <div class="col-md-8">
                 <div class="mt-5">
                     {% if user.is_staff %}
-                        <h2>Hello, Admin {{ user.first_name }}!</h2>
+                        <h2>Hello, Admin {{ user.first_name }}, {{ request.user.username }}!</h2>
                     {% else %}
                         <h2>Hello, {{ user.first_name }}!</h2>
                     {% endif %}
