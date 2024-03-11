@@ -21,3 +21,6 @@ class Answer(models.Model):
 class User(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_staff = models.BooleanField(default=False)
+
+class Report(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
