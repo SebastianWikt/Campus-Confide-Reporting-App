@@ -38,11 +38,11 @@
                     {% endif %}
                     <p>Welcome to the home page.</p>
                     {% if user.is_staff %}
-                        <button type="button" class="btn answer-button btn-secondary">
-                            <a href="{% url 'create_report'%}">Create Report</a>
+                        <button type="button" class="btn site-button">
+                            <a href="{% url 'view_reports'%}">View Reports</a>
                         </button>
                     {% else %}
-                        <button type="button" class="btn answer-button btn-secondary">
+                        <button type="button" class="btn site-button">
                             <a href="{% url 'create_report'%}">Create Report</a>
                         </button>
                     {% endif %}
