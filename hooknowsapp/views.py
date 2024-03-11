@@ -26,3 +26,7 @@ def create_report(request):
 
 def view_reports(request):
     return render(request, 'hooknowsapp/view_reports.html')
+
+
+def report_submitted(request):
+    return render(request, 'hooknowsapp/report_submitted.html')
