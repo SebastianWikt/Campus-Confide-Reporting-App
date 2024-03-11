@@ -37,9 +37,15 @@
                         <h2>Hello, {{ user.first_name }}!</h2>
                     {% endif %}
                     <p>Welcome to the home page.</p>
-                    <button type = "button">
-                        <li>create report</li>
-                    </button>
+                    {% if user.is_staff %}
+                        <button type="button" class="btn answer-button btn-secondary">
+                            <a href="{% url 'create_report'%}">Create Report</a>
+                        </button>
+                    {% else %}
+                        <button type="button" class="btn answer-button btn-secondary">
+                            <a href="{% url 'create_report'%}">Create Report</a>
+                        </button>
+                    {% endif %}
                 </div>
             </div>
         </div>

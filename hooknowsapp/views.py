@@ -19,3 +19,5 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
+def create_report(request):
+    return render(request, 'hooknowsapp/create_report.html')
