@@ -20,7 +20,7 @@
     <h1>
         File a Report
     </h1>
-    <form action="{% url 'polls:report' %}" method="post">
+    <form action="{% url 'hooknowsapp:report' %}" method="post">
         {% csrf_token%}
         <fieldset>
             {{form.as_p}}
