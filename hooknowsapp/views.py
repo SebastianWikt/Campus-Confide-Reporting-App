@@ -23,7 +23,7 @@ def logout_view(request):
 
 def create_report(request):
     if request.method == "POST":
-        form = ReportForm(request.POST, request.FIlES)
+        form = ReportForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return render(request, 'hooknowsapp/create_report.html')
