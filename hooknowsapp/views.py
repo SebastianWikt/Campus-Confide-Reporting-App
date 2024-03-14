@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
+from .forms import ReportForm
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('/home')
@@ -21,7 +22,14 @@ def logout_view(request):
 
 
 def create_report(request):
-    return render(request, 'hooknowsapp/create_report.html')
+    if request.method == "POST":
+        form = ReportForm(request.POST, request.FIlES)
+        if form.is_valid():
+            form.save()
+            return render(request, 'hooknowsapp/create_report.html')
+    else:
+        form = ReportForm()
+
 
 
 def view_reports(request):

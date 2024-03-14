@@ -13,9 +13,19 @@
     <div class="navbar item1">
         <input type="search" placeholder="Enter Subject">
         <a href="#">My Account</a>
-        <button type="button" class="btn site-button">
-            <a href="{% url 'report_submitted'%}">Submit Report</a>
-        </button>
     </div>
 </body>
+
+<div class = "container text-center">
+    <h1>
+        File a Report
+    </h1>
+    <form action="{% url 'polls:report' %}" method="post">
+        {% csrf_token%}
+        <fieldset>
+            {{form.as_p}}
+        </fieldset>
+        <button type = "submit" class = "btn btn-primary">Submit Report</button>
+    </form>
+</div>
 </html>
