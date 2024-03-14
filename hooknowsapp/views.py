@@ -30,6 +30,8 @@ def create_report(request):
     else:
         form = ReportForm()
 
+    return render(request, 'hooknowsapp/create_report.html', {"form" : form})
+
 
 
 def view_reports(request):
