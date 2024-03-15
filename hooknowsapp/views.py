@@ -25,8 +25,9 @@ def create_report(request):
     if request.method == "POST":
         form = ReportForm(request.POST, request.FILES)
         if form.is_valid():
+            report = form.save(commit=False)
             form.save()
-            return render(request, 'hooknowsapp/create_report.html')
+            return render(request, 'hooknowsapp/report_submitted.html')
     else:
         form = ReportForm()
 
