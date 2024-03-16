@@ -20,12 +20,12 @@
     <h1>
         File a Report
     </h1>
-    <form action="{% url 'create_report'%}" method="post">
-        {% csrf_token%}
-        <fieldset>
-            {{form.as_p}}
-        </fieldset>
-        <button type = "submit" class = "btn btn-primary">Submit Report</button>
-    </form>
+  <form action="{% url 'create_report' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset>
+        {{ form.as_p }}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Submit Report</button>
+</form>
 </div>
 </html>
