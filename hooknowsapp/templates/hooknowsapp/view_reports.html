@@ -11,26 +11,22 @@
 </head>
 <body>
     <div class="navbar item1">
-        <input type="search" placeholder="Enter Subject">
-        <a href="#">My Account</a>
-        <a href="#">Create Post</a>
-
+        <h2>Admin Site</h2>
 
     </div>
 
     <div class="item3">
         <div class="post">
-            <div class="post-header">
-                <h2 class="post-title">Django Help</h2>
-                <div class="vote">
-                    <button>▲</button>
-                    <div>25</div>
-                    <button>▼</button>
-                </div>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
-            <div class="meta-info">
-                posted by Anonymous in CS
+            <div class="reports-container">
+                {% for report in reports %}
+                    <div class="report">
+                        <h2 class="report-title">{{ forloop.counter }}.{{ report.title }}</h2>
+                        <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                        {% if report.file %}
+                            <p><a href="{{ report.file.url }}" target="_blank">View File</a></p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>

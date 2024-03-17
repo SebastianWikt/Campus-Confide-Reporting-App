@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from .models import Report
 
 from .forms import ReportForm
 def login_view(request):
@@ -33,9 +34,9 @@ def create_report(request):
     return render(request, 'hooknowsapp/create_report.html', {"form" : form})
 
 
-
 def view_reports(request):
-    return render(request, 'hooknowsapp/view_reports.html')
+    reports = Report.objects.all()
+    return render(request, 'hooknowsapp/view_reports.html', {'reports': reports})
 
 
 def report_submitted(request):
