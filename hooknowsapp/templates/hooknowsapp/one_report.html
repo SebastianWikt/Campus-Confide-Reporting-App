@@ -19,9 +19,9 @@
         <div class="post">
             <div class="reports-container">
                 <div class="report">
-                    <h1>Report Title: {{report.title}}</h1>
-                    <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
-                    <h3>Report Description: {{report.description}}</h3>
+                    <h1 class = "report-title">Report Title: {{report.title}}</h1>
+                    <p class = "date">Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                    <h3 class = "report-description">Report Description: {{report.description}}</h3>
                     <h3 class = "submission-type">Report Status: {{report.submission_status}}</h3>
                     {% if report.file %}
                         <p><a href="{{ report.file.url }}" target="_blank">View File</a></p>

@@ -22,6 +22,7 @@
                     <div class="report">
                         <h2 class="report-title">{{ forloop.counter }}.{{ report.title }}</h2>
                         <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                        <h3 class = "submission-type">Report Status: {{report.submission_status}}</h3>
                         <button type ="button" class="btn btn-primary">
                             <a href="{% url 'one_report' report.id%}">View This Report</a>
                         </button>

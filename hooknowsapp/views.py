@@ -47,7 +47,15 @@ def view_reports(request):
 def one_report(request, report_id):
     report = Report.objects.get(pk=report_id)
     #add new and in progress logic here
+    if report.submission_status == "New":
+        report.submission_status = "In Progress"
+        report.save()
     return render(request, 'hooknowsapp/one_report.html', {'report': report})
+
+
+def resolve_report(request, report_id):
+    report = Report.objects.get(pk=report_id)
+
 
 def report_submitted(request):
     return render(request, 'hooknowsapp/report_submitted.html')
