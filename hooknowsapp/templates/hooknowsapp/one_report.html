@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Help</title>
+    <link rel="stylesheet"  href="../../static/hooknowsapp/green.css" />
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="navbar item1 row">
+        <a>Reports View Page</a>
+        <a href="{% url 'home'%}">Back</a>
+    </div>
+
+    <div class="item3">
+        <div class="post">
+            <div class="reports-container">
+                <div class="report">
+                    <h1>Report Title: {{report.title}}</h1>
+                    <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                    <h3>Report Description: {{report.slug}}</h3>
+                    <h3 class = "submission-type">Report Status: {{report.submission_status}}</h3>
+                    {% if report.file %}
+                        <p><a href="{{ report.file.url }}" target="_blank">View File</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "navbar a item5">
+    </div>
+
+</body>
+</html>

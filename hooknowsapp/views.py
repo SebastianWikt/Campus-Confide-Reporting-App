@@ -44,6 +44,9 @@ def view_reports(request):
     reports = Report.objects.all()
     return render(request, 'hooknowsapp/view_reports.html', {'reports': reports})
 
+def one_report(request, report_id):
+    report = Report.objects.get(pk=1)
+    return render(request, 'hooknowsapp/one_report.html', {'report': report})
 
 def report_submitted(request):
     return render(request, 'hooknowsapp/report_submitted.html')
