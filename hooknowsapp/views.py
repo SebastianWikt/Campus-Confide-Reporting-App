@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .models import Report
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404
 
 from .forms import ReportForm
 def login_view(request):
@@ -44,17 +46,23 @@ def view_reports(request):
     reports = Report.objects.all()
     return render(request, 'hooknowsapp/view_reports.html', {'reports': reports})
 
+def view_user_reports(request):
+    user_id = request.user
+    reports = Report.objects.filter(user_id=user_id)
+    return render(request, 'hooknowsapp/view_reports.html', {'reports': reports})
+
 def one_report(request, report_id):
     report = Report.objects.get(pk=report_id)
     #add new and in progress logic here
-    if report.submission_status == "New":
-        report.submission_status = "In Progress"
-        report.save()
+    if request.user.is_staff:
+        if report.submission_status == "New":
+            report.submission_status = "In Progress"
+            report.save()
     return render(request, 'hooknowsapp/one_report.html', {'report': report})
 
 
-def resolve_report(request, report_id):
-    report = Report.objects.get(pk=report_id)
+# def resolve_report(request, report_id):
+#     report = Report.objects.get(pk=report_id)
 
 
 def report_submitted(request):
