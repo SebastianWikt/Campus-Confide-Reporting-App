@@ -22,6 +22,7 @@
                     <div class="report">
                         <h2 class="report-title">{{ forloop.counter }}.{{ report.title }}</h2>
                         <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                        <h3 class = "submission-type">{{report.submission_status}}</h3>
                         {% if report.file %}
                             <p><a href="{{ report.file.url }}" target="_blank">View File</a></p>
                         {% endif %}
