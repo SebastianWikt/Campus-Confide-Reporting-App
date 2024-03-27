@@ -37,17 +37,23 @@
                         <h2>Hello, {{ user.first_name }}!</h2>
                     {% endif %}
                     <p>Welcome to the home page.</p>
-                    {% if user.is_staff %}
-                        <button type ="button" class="btn site-button">
-                            <a href="{% url 'view_reports'%}">View Reports</a>
-                        </button>
-                    {% else %}
+                    {% if user.is_anonymous %}
                         <button type="button" class="btn site-button">
                             <a href="{% url 'create_report'%}">Create Report</a>
                         </button>
-                        <button type ="button" class="btn site-button">
-                            <a href="{% url 'view_user_reports'%}">View User Reports</a>
-                        </button>
+                    {% else %}
+                        {% if user.is_staff %}
+                            <button type ="button" class="btn site-button">
+                                <a href="{% url 'view_reports'%}">View Reports</a>
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn site-button">
+                                <a href="{% url 'create_report'%}">Create Report</a>
+                            </button>
+                            <button type ="button" class="btn site-button">
+                                <a href="{% url 'view_user_reports'%}">View User Reports</a>
+                            </button>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
