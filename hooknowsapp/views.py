@@ -73,7 +73,6 @@ def one_report(request, report_id):
 def report_submitted(request):
     return render(request, 'hooknowsapp/report_submitted.html')
 
-@login_required
 def add_admin_note(request, report_id):
     if request.method == "POST" and request.user.is_staff:
         report = get_object_or_404(Report, pk=report_id)
