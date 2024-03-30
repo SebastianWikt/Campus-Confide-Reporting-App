@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    {% if report.user %}
+    {% if report.user and user.is_staff %}
     <div class="resolved">
         <form action="{% url 'report_resolved' report.id %}" method="post">
            {% csrf_token %}
@@ -45,7 +45,7 @@
         </form>
     </div>
     {% else %}
-        <p>This report was submitted anonymously. Notes cannot be added.</p>
+        <p>This report was submitted anonymously or you are not an admin. Notes cannot be added.</p>
     {% endif %}
 
     <div class="navbar a item5"></div>
