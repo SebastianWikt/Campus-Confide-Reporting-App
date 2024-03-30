@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('hooknowsapp', '0004_report_file.py'),
+        ('hooknowsapp', '0004_report_file'),
     ]
 
     operations = [
