@@ -21,7 +21,7 @@ class Report(models.Model):
     submission_types = (
         ('new', 'New'),
         ('in_progress', 'In Progress'),
-        ('resolved', 'Resolved')
+        ('resolved', 'Resolved'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=60)
@@ -29,3 +29,7 @@ class Report(models.Model):
     description = models.TextField(default='', max_length=200)
     file = models.FileField(upload_to='reports/')
     submission_status = models.CharField(max_length=30, choices=submission_types, default='New')
+
+class AdminNote(models.Model):
+    report = models.ForeignKey(Report, related_name='admin_notes', on_delete=models.CASCADE)
+    note = models.TextField()

@@ -5,24 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django Help</title>
     <link rel="stylesheet"  href="../../static/hooknowsapp/green.css" />
-    <style>
-
-    </style>
 </head>
 <body>
     <div class="navbar item1 row">
         <a>Reports View Page</a>
-        <a href="{% url 'view_reports'%}">Back</a>
+        <a href="{% url 'view_reports' %}">Back</a>
     </div>
 
     <div class="item3">
         <div class="post">
             <div class="reports-container">
                 <div class="report">
-                    <h1 class = "report-title">Report Title: {{report.title}}</h1>
-                    <p class = "date">Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
-                    <h3 class = "report-description">Report Description: {{report.description}}</h3>
-                    <h3 class = "submission-type">Report Status: {{report.submission_status}}</h3>
+                    <h1 class="report-title">Report Title: {{ report.title }}</h1>
+                    <p class="date">Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                    <h3 class="report-description">Report Description: {{ report.description }}</h3>
+                    <h3 class="submission-type">Report Status: {{ report.submission_status }}</h3>
                     {% if report.file %}
                         <p><a href="{{ report.file.url }}" target="_blank">View File</a></p>
                     {% endif %}
@@ -30,8 +27,22 @@
             </div>
         </div>
     </div>
-    <div class = "navbar a item5">
-    </div>
 
+    {% if report.user %}
+    <div class="admin-note-form">
+        <h2>Add Note:</h2>
+        <form action="{% url 'add_admin_note' report.id %}" method="post">
+            {% csrf_token %}
+            <textarea name="note" rows="4" cols="50" placeholder="Enter your note here..."></textarea>
+            <br>
+            <input type="submit" value="Submit Note">
+        </form>
+    </div>
+    {% else %}
+        <p>This report was submitted anonymously. Notes cannot be added.</p>
+    {% endif %}
+
+    <div class="navbar a item5"></div>
 </body>
 </html>
+

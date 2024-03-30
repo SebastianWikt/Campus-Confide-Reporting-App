@@ -10,5 +10,6 @@ urlpatterns = [
     path('view_reports/', views.view_reports, name='view_reports'),
     path('report_submited/', views.report_submitted, name='report_submitted'),
     path('one_report/<int:report_id>/', views.one_report, name='one_report'),
-    path('view_user_reports/', views.view_user_reports, name='view_user_reports')
+    path('view_user_reports/', views.view_user_reports, name='view_user_reports'),
+    path('add_admin_note/<int:report_id>/', views.add_admin_note, name='add_admin_note')
 ]
