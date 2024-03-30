@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hooknowsapp', '0002_remove_report_user'),
+        ('hooknowsapp', '0002_report_file'),
     ]
 
     operations = [
