@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django Help</title>
-    <link rel="stylesheet"  href="../../static/hooknowsapp/green.css" />
-    <style>
-        
-    </style>
+    <link rel="stylesheet" href="../../static/hooknowsapp/green.css" />
 </head>
 <body>
     <div class="navbar item1 row">
         <a>Reports View Page</a>
-        <a href="{% url 'home'%}">Back</a>
+        <a href="{% url 'home' %}">Back</a>
     </div>
 
     <div class="item3">
@@ -20,19 +17,31 @@
             <div class="reports-container">
                 {% for report in reports %}
                     <div class="report">
-                        <h2 class="report-title">{{ forloop.counter }}.{{ report.title }}</h2>
+                        <h2 class="report-title">{{ forloop.counter }}. {{ report.title }}</h2>
                         <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
-                        <h3 class = "submission-type">Report Status: {{report.submission_status}}</h3>
-                        <button type ="button" class="btn btn-primary">
-                            <a href="{% url 'one_report' report.id%}">View This Report</a>
+                        <h3 class="submission-type">Report Status: {{ report.submission_status }}</h3>
+                        <button type="button" class="btn btn-primary">
+                            <a href="{% url 'one_report' report.id %}">View This Report</a>
                         </button>
+
+                        <div class="admin-notes">
+                            <h4>Admin Notes:</h4>
+                            {% for note in report.admin_notes.all %}
+                                <div class="note">
+                                    <p>{{ note.created_at|date:"F d, Y H:i" }} - {{ note.note }}</p>
+                                </div>
+                            {% empty %}
+                                <p>No notes from admin.</p>
+                            {% endfor %}
+                        </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-    <div class = "navbar a item5"> 
+    <div class="navbar a item5">
     </div>
 
 </body>
 </html>
+
