@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django Help</title>
-    <link rel="stylesheet"  href="../../static/hooknowsapp/green.css" />
-</head>
+    <link rel="stylesheet" href="../../static/hooknowsapp/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <body>
-    <div class="navbar item1 row">
-        <a href="{% url 'view_reports' %}">Back</a>
-    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">Hoo-Knows</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Homepage</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_reports' %}">Return</a>
+            </li>
+        </ul>
+    </nav>
 
     <div class="item3">
         <div class="post">
@@ -17,37 +26,37 @@
                 <div class="report">
                     <h1 class="report-title">Report Title: {{ report.title }}</h1>
                     <p class="date">Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
-                    <h3 class="report-description">Report Description: {{ report.description }}</h3>
-                    <h3 class="submission-type">Report Status: {{ report.submission_status }}</h3>
+                    <p class="report-description">Report Description: {{ report.description }}</p>
+                    <p class="submission-type">Report Status: {{ report.submission_status }}</p>
                     {% if report.file %}
                         <p><a href="{{ report.file.url }}" target="_blank">View File</a></p>
                     {% endif %}
                 </div>
+                {% if report.user and user.is_staff %}
+                <div class="resolved">
+                    <form action="{% url 'report_resolved' report.id %}" method="post">
+                       {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Resolved</button>
+                    </form>
+                </div>
+                <div class="admin-note-form">
+                    <h2>Add Note:</h2>
+                    <form action="{% url 'add_admin_note' report.id %}" method="post">
+                        {% csrf_token %}
+                        <textarea name="note" rows="4" cols="50" placeholder="Enter your note here..."></textarea>
+                        <br>
+                        <input type="submit" value="Submit Note">
+                    </form>
+                </div>
+                {% else %}
+                    <p>This report was submitted anonymously or you are not an admin. Notes cannot be added.</p>
+                {% endif %}
             </div>
+            
+
+
         </div>
     </div>
-
-    {% if report.user and user.is_staff %}
-    <div class="resolved">
-        <form action="{% url 'report_resolved' report.id %}" method="post">
-           {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Resolved</button>
-        </form>
-    </div>
-    <div class="admin-note-form">
-        <h2>Add Note:</h2>
-        <form action="{% url 'add_admin_note' report.id %}" method="post">
-            {% csrf_token %}
-            <textarea name="note" rows="4" cols="50" placeholder="Enter your note here..."></textarea>
-            <br>
-            <input type="submit" value="Submit Note">
-        </form>
-    </div>
-    {% else %}
-        <p>This report was submitted anonymously or you are not an admin. Notes cannot be added.</p>
-    {% endif %}
-
-    <div class="navbar a item5"></div>
 </body>
 </html>
 

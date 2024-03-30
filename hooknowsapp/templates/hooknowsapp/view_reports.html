@@ -4,27 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django Help</title>
-    <link rel="stylesheet" href="../../static/hooknowsapp/green.css" />
+    <link rel="stylesheet" href="../../static/hooknowsapp/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="navbar item1 row">
-        <a href="{% url 'home' %}">Back</a>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">Hoo-Knows</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Homepage</a>
+            </li>
+            {% if not user.is_staff %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'create_report'%}">Create Report</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
 
     <div class="item3">
         <div class="post">
             <div class="reports-container">
                 {% for report in reports %}
                     <div class="report">
-                        <h2 class="report-title">{{ forloop.counter }}. {{ report.title }}</h2>
+                        <h2 class="report-title">Report {{ forloop.counter }}: {{ report.title }}</h2>
                         <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
-                        <h3 class="submission-type">Report Status: {{ report.submission_status }}</h3>
-                        <button type="button" class="btn btn-primary">
-                            <a href="{% url 'one_report' report.id %}">View This Report</a>
-                        </button>
-
+                        <p class="submission-type">Report Status: {{ report.submission_status }}</p>
+                        <a href="{% url 'one_report' report.id %}">
+                            <p>View Report Details</p>
+                        </a>
                         <div class="admin-notes">
-                            <h4>Admin Notes:</h4>
+                            <p>Admin Notes:</p>
                             {% for note in report.admin_notes.all %}
                                 <div class="note">
                                     <p>{{ note.created_at|date:"F d, Y H:i" }} - {{ note.note }}</p>
