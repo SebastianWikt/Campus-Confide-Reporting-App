@@ -65,9 +65,16 @@ def one_report(request, report_id):
 
     return render(request, 'hooknowsapp/one_report.html', {'report': report})
 
-
-# def resolve_report(request, report_id):
-#     report = Report.objects.get(pk=report_id)
+@login_required
+def report_resolved(request, report_id):
+    report = get_object_or_404(Report, pk=report_id)
+    if request.user.is_staff:
+        if report.submission_status == "Resolved":
+            report.submission_status = "In Progress"
+        else:
+            report.submission_status = "Resolved"
+        report.save()
+    return render(request, 'hooknowsapp/one_report.html', {'report': report})
 
 
 def report_submitted(request):

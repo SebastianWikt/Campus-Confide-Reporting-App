@@ -29,6 +29,12 @@
     </div>
 
     {% if report.user %}
+    <div class="resolved">
+        <form action="{% url 'report_resolved' report.id %}" method="post">
+           {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Resolved</button>
+        </form>
+    </div>
     <div class="admin-note-form">
         <h2>Add Note:</h2>
         <form action="{% url 'add_admin_note' report.id %}" method="post">
