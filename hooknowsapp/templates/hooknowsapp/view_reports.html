@@ -27,7 +27,7 @@
             <div class="reports-container">
                 {% for report in reports %}
                     <div class="report">
-                        <h2 class="report-title">Report {{ forloop.counter }}: {{ report.title }}</h2>
+                        <h2 class="report-title">Report {{ report.id }}: {{ report.title }}</h2>
                         <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
                         <p class="submission-type">Report Status: {{ report.submission_status }}</p>
                         <a href="{% url 'one_report' report.id %}">
