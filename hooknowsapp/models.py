@@ -33,3 +33,9 @@ class Report(models.Model):
 class AdminNote(models.Model):
     report = models.ForeignKey(Report, related_name='admin_notes', on_delete=models.CASCADE)
     note = models.TextField()
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE, blank=True, null=True)
+    message = models.TextField(default='', max_length=200)
+    read = models.BooleanField(default=False)

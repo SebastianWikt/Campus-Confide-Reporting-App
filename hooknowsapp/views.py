@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .models import Report, AdminNote
+from .models import Report, AdminNote, Notification
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -19,7 +19,11 @@ def login_view(request):
 
 
 def home(request):
-    return render(request, 'hooknowsapp/homepage.html')
+    notifications = None
+    if not request.user.is_staff and not request.user.is_anonymous:
+        notifications = Notification.objects.filter(user=request.user, read=False)
+    return render(request, 'hooknowsapp/homepage.html', {'notifications': notifications})
+
 
 
 def logout_view(request):
@@ -62,7 +66,11 @@ def one_report(request, report_id):
         if report.submission_status == "New":
             report.submission_status = "In Progress"
             report.save()
-
+            Notification.objects.create(user=report.user, report=report,
+                                        message=f"Report {report_id} status has changed.")
+    if not request.user.is_staff and not request.user.is_anonymous:
+        notif = Notification.objects.filter(user=request.user, report=report, read=False)
+        notif.update(read=True)
     return render(request, 'hooknowsapp/one_report.html', {'report': report})
 
 @login_required
@@ -71,8 +79,12 @@ def report_resolved(request, report_id):
     if request.user.is_staff:
         if report.submission_status == "Resolved":
             report.submission_status = "In Progress"
+            Notification.objects.create(user=report.user, report=report,
+                                        message=f"Report {report_id} status has changed.")
         else:
             report.submission_status = "Resolved"
+            Notification.objects.create(user=report.user, report=report,
+                                        message=f"Report {report_id} has been resolved.")
         report.save()
     return render(request, 'hooknowsapp/one_report.html', {'report': report})
 

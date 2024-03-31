@@ -28,6 +28,13 @@
         {% else %}
             <h2>Welcome, {{ user.first_name }}!</h2>
             <p>Have an issue? Report it now!</p>
+            {% if notifications %}
+                <div class="notifications">
+                    {% for notification in notifications %}
+                        <p>{{ notification.message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         {% endif %}
         
         {% if user.is_anonymous %}
