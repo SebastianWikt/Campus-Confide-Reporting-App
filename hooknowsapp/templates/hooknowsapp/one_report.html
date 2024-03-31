@@ -15,7 +15,11 @@
                 <a class="nav-link" href="{% url 'home' %}">Homepage</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'view_reports' %}">Return</a>
+                {% if not user.is_staff %}
+                    <a class="nav-link" href="{% url 'view_user_reports' %}">Return</a>
+                {% else %}
+                    <a class="nav-link" href="{% url 'view_reports' %}">Return</a>
+                {% endif %}
             </li>
         </ul>
     </nav>
