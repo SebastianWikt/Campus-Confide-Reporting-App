@@ -22,16 +22,12 @@
     padding: 10px;
     margin: 10px;
     border: none;
-    /* border-width: 2px;
-    border-radius: 5px; */
-    /* border-color: #0b0c10; */
     cursor: pointer;
 }
 
 .general-button {
     background-color: white;
     align-items:flex-start;
-    padding: none;
     border: none;
     cursor: pointer;
 }

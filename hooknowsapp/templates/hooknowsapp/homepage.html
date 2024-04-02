@@ -5,17 +5,66 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="../../static/hooknowsapp/styles.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-custom {
+            background-color: #0056b3;
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: #ffffff;
+        }
+
+        .container {
+            padding-top: 2rem;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary, .btn-secondary {
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #004299;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #545b62;
+        }
+
+
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#">Hoo-Knows</a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-            </li>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">Campus-Confide</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <div class="container">
@@ -28,33 +77,29 @@
         {% else %}
             <h2>Welcome, {{ user.first_name }}!</h2>
             <p>Have an issue? Report it now!</p>
-            {% if notifications %}
-                <div class="notifications">
-                    {% for notification in notifications %}
-                        <p>{{ notification.message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
         {% endif %}
-        
+
+        {% if notifications %}
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Report Update!</h4>
+                {% for notification in notifications %}
+                    <p>{{ notification.message }}</p>
+                {% endfor %}
+                <hr>
+                <p class="mb-0">View your reports to see any updates.</p>
+            </div>
+        {% endif %}
+
         {% if user.is_anonymous %}
-            <button>
-                <a href="{% url 'create_report'%}">Create Report</a>
-            </button>
+            <a class="btn btn-primary" href="{% url 'create_report' %}" role="button">Create Report</a>
         {% else %}
             {% if user.is_staff %}
-                <button>
-                    <a href="{% url 'view_reports'%}">View Reports</a>
-                </button>
+                <a class="btn btn-primary" href="{% url 'view_reports' %}" role="button">View Reports</a>
             {% else %}
-            <div class="small-container">
-                <button>
-                    <a href="{% url 'create_report'%}">Create Report</a>
-                </button>
-                <button>
-                    <a href="{% url 'view_user_reports'%}">View User Reports</a>
-                </button>
-            </div>
+                <div class="small-container">
+                    <a class="btn btn-primary" href="{% url 'create_report' %}" role="button">Create Report</a>
+                    <a class="btn btn-secondary" href="{% url 'view_user_reports' %}" role="button">View User Reports</a>
+                </div>
             {% endif %}
         {% endif %}
     </div>
