@@ -101,3 +101,13 @@ def add_admin_note(request, report_id):
         return HttpResponseRedirect(reverse('one_report', args=[report_id]))
     else:
         return HttpResponseRedirect(reverse('home'))
+
+
+@login_required
+def delete_report(request, report_id):
+    report = get_object_or_404(Report, id=report_id)
+    if request.user == report.user and not request.user.is_staff:
+        report.delete()
+        return redirect('home')
+    else:
+        return redirect('view_user_reports')

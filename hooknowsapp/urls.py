@@ -13,4 +13,5 @@ urlpatterns = [
     path('view_user_reports/', views.view_user_reports, name='view_user_reports'),
     path('add_admin_note/<int:report_id>/', views.add_admin_note, name='add_admin_note'),
     path('report_resolved/<int:report_id>/', views.report_resolved, name='report_resolved'),
+    path('report/<int:report_id>/delete/', views.delete_report, name='delete_report'),
 ]
