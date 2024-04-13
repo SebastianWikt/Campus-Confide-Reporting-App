@@ -17,6 +17,7 @@ class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
 
+
 class Report(models.Model):
     submission_types = (
         ('new', 'New'),
@@ -30,9 +31,11 @@ class Report(models.Model):
     file = models.FileField(upload_to='reports/')
     submission_status = models.CharField(max_length=30, choices=submission_types, default='New')
 
+
 class AdminNote(models.Model):
     report = models.ForeignKey(Report, related_name='admin_notes', on_delete=models.CASCADE)
     note = models.TextField()
+
 
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)

@@ -91,24 +91,33 @@
     </nav>
 
     <div class="reports-container">
-        {% for report in reports %}
-            <div class="report">
-                <h2 class="report-title">Report {{ report.id }}: {{ report.title }}</h2>
-                <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
-                <p class="submission-type">Report Status: {{ report.submission_status }}</p>
-                <a href="{% url 'one_report' report.id %}">View Report Details</a>
-                <div class="admin-notes">
-                    <p>Admin Notes:</p>
-                    {% for note in report.admin_notes.all %}
-                        <div class="note">
-                            <p>{{ note.created_at|date:"F d, Y H:i" }} - {{ note.note }}</p>
-                        </div>
-                    {% empty %}
-                        <p>No notes from admin.</p>
-                    {% endfor %}
+        {% block content %}
+            <form method="get" action="{% url 'report_list' %}">
+                <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search by title">
+                <button type="submit" name="search">Search</button>
+            </form>
+            <br>
+            {% for report in reports %}
+                <div class="report">
+                    <h2 class="report-title">Report {{ report.id }}: {{ report.title }}</h2>
+                    <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                    <p class="submission-type">Report Status: {{ report.submission_status }}</p>
+                    <a href="{% url 'one_report' report.id %}">View Report Details</a>
+                    <div class="admin-notes">
+                        <p>Admin Notes:</p>
+                        {% for note in report.admin_notes.all %}
+                            <div class="note">
+                                <p>{{ note.created_at|date:"F d, Y H:i" }} - {{ note.note }}</p>
+                            </div>
+                            {% empty %}
+                                <p>No notes from admin.</p>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% empty %}
+                <p>No reports found.</p>
+            {% endfor %}
+        {% endblock %}
     </div>
 </body>
 </html>
