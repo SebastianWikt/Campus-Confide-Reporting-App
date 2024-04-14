@@ -9,11 +9,9 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
 from .filters import ReportFilter
-
-
-
-
 from .forms import ReportForm
+
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('/home')
