@@ -116,18 +116,16 @@ def delete_report(request, report_id):
 
 
 def report_list(request):
+    reports = Report.objects.all()
     if request.user.is_staff:
-        reports = Report.objects.all()
+        report_filter = ReportFilter(request.GET, queryset=reports)
+        filtered_reports = report_filter.qs
     else:
         reports = Report.objects.filter(user=request.user)
-    if 'search' in request.GET:
-        if request.GET.get('title'):
-            report_filter = ReportFilter(request.GET, queryset=reports)
-            filtered_reports = report_filter.qs
-        else:
-            filtered_reports = Report.objects.all()
-    else:
-        filtered_reports = Report.objects.all()
-        report_filter = ReportFilter(queryset=filtered_reports)
-
+        report_filter = ReportFilter(request.GET, queryset=reports)
+        if 'search' in request.GET:
+            if request.GET.get('title'):
+                filtered_reports = report_filter.qs
+            else:
+                filtered_reports = reports
     return render(request, 'hooknowsapp/view_reports.html', {'filter': report_filter, 'reports': filtered_reports,})
