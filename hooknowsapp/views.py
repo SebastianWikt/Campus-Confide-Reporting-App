@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
-from .filters import ReportFilter
 from .forms import ReportForm
+from .filters import ReportFilter
 
 
 def login_view(request):
@@ -114,7 +114,6 @@ def delete_report(request, report_id):
         return redirect('home')
     else:
         return redirect('view_user_reports')
-
 
 def report_list(request):
     reports = Report.objects.all()

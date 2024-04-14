@@ -77,7 +77,6 @@
             text-decoration: none;
             color: #0056b3;
         }
-
     </style>
 </head>
 <body>
@@ -99,6 +98,7 @@
             </ul>
         </div>
     </nav>
+
     <div class="reports-container">
         {% block content %}
             <div class="filter">
@@ -109,28 +109,26 @@
                 </form>
             </div>
     </div>
-    <div class="reports-container" >
-            {% for report in reports %}
-                <br>
-                <div class="report">
-                    <h2 class="report-title">Report {{ report.id }}: {{ report.title }}</h2>
-                    <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
-                    <p class="submission-type">Report Status: {{ report.submission_status }}</p>
-                    <a href="{% url 'one_report' report.id %}">View Report Details</a>
-                    <div class="admin-notes">
-                        <p>Admin Notes:</p>
-                        {% for note in report.admin_notes.all %}
-                            <div class="note">
-                                <p>{{ note.created_at|date:"F d, Y H:i" }} - {{ note.note }}</p>
-                            </div>
-                            {% empty %}
-                                <p>No notes from admin.</p>
-                        {% endfor %}
-                    </div>
+
+    <div class="reports-container">
+        {% for report in reports %}
+            <div class="report">
+                <h2 class="report-title">Report {{ report.id }}: {{ report.title }}</h2>
+                <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                <p class="submission-type">Report Status: {{ report.submission_status }}</p>
+                <a href="{% url 'one_report' report.id %}">View Report Details</a>
+                <div class="admin-notes">
+                    <p>Admin Notes:</p>
+                    {% for note in report.admin_notes.all %}
+                        <div class="note">
+                            <p>{{ note.created_at|date:"F d, Y H:i" }} - {{ note.note }}</p>
+                        </div>
+                    {% empty %}
+                        <p>No notes from admin.</p>
+                    {% endfor %}
                 </div>
-            {% empty %}
-                <p>No reports found.</p>
-            {% endfor %}
+            </div>
+        {% endfor %}
         {% endblock %}
     </div>
 </body>
