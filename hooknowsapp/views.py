@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Report, AdminNote, Notification
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
+
 
 
 from .forms import ReportForm
@@ -86,6 +87,8 @@ def report_resolved(request, report_id):
             Notification.objects.create(user=report.user, report=report,
                                         message=f"Report {report_id} has been resolved.")
         report.save()
+    else:
+        return HttpResponseForbidden("You do not have permission to perform this action.")
     return render(request, 'hooknowsapp/one_report.html', {'report': report})
 
 
@@ -111,3 +114,5 @@ def delete_report(request, report_id):
         return redirect('home')
     else:
         return redirect('view_user_reports')
+
+
