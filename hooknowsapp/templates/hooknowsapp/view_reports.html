@@ -22,6 +22,10 @@
             color: #ffffff;
         }
 
+        .filter {
+            align-items: center;
+        }
+
         .reports-container {
             display: flex;
             flex-wrap: wrap;
@@ -95,23 +99,17 @@
             </ul>
         </div>
     </nav>
-
-    <div class="reports-container" >
+    <div class="reports-container">
         {% block content %}
             <div class="filter">
-                <h3>Filter</h3>
                 <form method="get" action="{% url 'report_list' %}">
-                    <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search from title"><br>
-                    {{ filter.form.submission_status.label_tag }}
-                    {% for choice in filter.form.submission_status %}
-                      <label class="checkbox-inline">
-                        {{ choice.tag }} {{ choice.choice_label }}
-                      </label>
-                    {% endfor %}<br>
+                    <h3 align="center">Filter</h3>
+                    <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search from title">
                     <button class="btn btn-primary" type="submit" name="search">Search</button>
                 </form>
             </div>
-            <br>
+    </div>
+    <div class="reports-container" >
             {% for report in reports %}
                 <br>
                 <div class="report">
