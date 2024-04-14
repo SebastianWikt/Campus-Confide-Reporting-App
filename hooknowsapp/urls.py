@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from hooknowsapp import views
 
 urlpatterns = [
@@ -14,4 +14,6 @@ urlpatterns = [
     path('add_admin_note/<int:report_id>/', views.add_admin_note, name='add_admin_note'),
     path('report_resolved/<int:report_id>/', views.report_resolved, name='report_resolved'),
     path('report/<int:report_id>/delete/', views.delete_report, name='delete_report'),
+    path('reports/', views.report_list, name='report_list'),
+    re_path(r'^search/$', views.report_list, name='search'),
 ]

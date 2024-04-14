@@ -8,10 +8,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
-
-
-
 from .forms import ReportForm
+from .filters import ReportFilter
+
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('/home')
@@ -115,4 +115,17 @@ def delete_report(request, report_id):
     else:
         return redirect('view_user_reports')
 
-
+def report_list(request):
+    reports = Report.objects.all()
+    report_filter = ReportFilter(request.GET, queryset=reports)
+    if request.user.is_staff:
+        filtered_reports = report_filter.qs
+    else:
+        reports = Report.objects.filter(user=request.user)
+        report_filter = ReportFilter(request.GET, queryset=reports)
+        if 'search' in request.GET:
+            if request.GET.get('title'):
+                filtered_reports = report_filter.qs
+            else:
+                filtered_reports = reports
+    return render(request, 'hooknowsapp/view_reports.html', {'filter': report_filter, 'reports': filtered_reports,})
