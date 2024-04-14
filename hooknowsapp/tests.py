@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Question, Report, Answer, User
+from .models import Report
 import django
 import os
 
@@ -39,3 +39,6 @@ class ReportTestCases(TestCase):
         response = self.client.post(reverse('create_report'), report_data, follow=True)
         #self.assertRedirects(response, reverse('report_submitted'))
         self.assertEqual(response.status_code, 200)
+
+# class TestViews(TestCase):
+    
