@@ -117,8 +117,8 @@ def delete_report(request, report_id):
 
 def report_list(request):
     reports = Report.objects.all()
+    report_filter = ReportFilter(request.GET, queryset=reports)
     if request.user.is_staff:
-        report_filter = ReportFilter(request.GET, queryset=reports)
         filtered_reports = report_filter.qs
     else:
         reports = Report.objects.filter(user=request.user)

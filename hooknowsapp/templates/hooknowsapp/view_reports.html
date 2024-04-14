@@ -64,10 +64,16 @@
             font-size: 14px;
         }
 
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #004299;
+        }
+
         a, a:hover {
             text-decoration: none;
             color: #0056b3;
         }
+
     </style>
 </head>
 <body>
@@ -90,14 +96,24 @@
         </div>
     </nav>
 
-    <div class="reports-container">
+    <div class="reports-container" >
         {% block content %}
-            <form method="get" action="{% url 'report_list' %}">
-                <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search by title">
-                <button type="submit" name="search">Search</button>
-            </form>
+            <div class="filter">
+                <h3>Filter</h3>
+                <form method="get" action="{% url 'report_list' %}">
+                    <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search from title"><br>
+                    {{ filter.form.submission_status.label_tag }}
+                    {% for choice in filter.form.submission_status %}
+                      <label class="checkbox-inline">
+                        {{ choice.tag }} {{ choice.choice_label }}
+                      </label>
+                    {% endfor %}<br>
+                    <button class="btn btn-primary" type="submit" name="search">Search</button>
+                </form>
+            </div>
             <br>
             {% for report in reports %}
+                <br>
                 <div class="report">
                     <h2 class="report-title">Report {{ report.id }}: {{ report.title }}</h2>
                     <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
