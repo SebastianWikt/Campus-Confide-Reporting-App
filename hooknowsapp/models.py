@@ -17,7 +17,7 @@ class Report(models.Model):
     file = models.FileField(upload_to='reports/')
     submission_status = models.CharField(max_length=30, choices=submission_types, default='New')
 
-
+ 
 class AdminNote(models.Model):
     report = models.ForeignKey(Report, related_name='admin_notes', on_delete=models.CASCADE)
     note = models.TextField()
