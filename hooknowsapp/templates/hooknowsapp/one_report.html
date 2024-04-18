@@ -125,6 +125,12 @@
         </div>
         {% endif %}
 
+        {% if report.user == user and not user.is_staff %}
+                <div class="delete-report">
+                    <a href="{% url 'delete_report' report.id %}" class="btn btn-danger">Delete Report</a>
+                </div>
+                {% endif %}
+
     </div>
 {% include 'hooknowsapp/footer.html' %}
 </body>

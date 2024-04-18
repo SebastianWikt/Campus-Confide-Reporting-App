@@ -6,11 +6,12 @@ from django.contrib.auth.decorators import login_required
 from .models import Report, AdminNote, Notification
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
-
-
 from .forms import ReportForm
+from .filters import ReportFilter
+
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('/home')
@@ -86,6 +87,8 @@ def report_resolved(request, report_id):
             Notification.objects.create(user=report.user, report=report,
                                         message=f"Report {report_id} has been resolved.")
         report.save()
+    else:
+        return HttpResponseForbidden("You do not have permission to perform this action.")
     return render(request, 'hooknowsapp/one_report.html', {'report': report})
 
 
@@ -101,3 +104,28 @@ def add_admin_note(request, report_id):
         return HttpResponseRedirect(reverse('one_report', args=[report_id]))
     else:
         return HttpResponseRedirect(reverse('home'))
+
+
+@login_required
+def delete_report(request, report_id):
+    report = get_object_or_404(Report, id=report_id)
+    if request.user == report.user and not request.user.is_staff:
+        report.delete()
+        return redirect('home')
+    else:
+        return redirect('view_user_reports')
+
+def report_list(request):
+    reports = Report.objects.all()
+    report_filter = ReportFilter(request.GET, queryset=reports)
+    if request.user.is_staff:
+        filtered_reports = report_filter.qs
+    else:
+        reports = Report.objects.filter(user=request.user)
+        report_filter = ReportFilter(request.GET, queryset=reports)
+        if 'search' in request.GET:
+            if request.GET.get('title'):
+                filtered_reports = report_filter.qs
+            else:
+                filtered_reports = reports
+    return render(request, 'hooknowsapp/view_reports.html', {'filter': report_filter, 'reports': filtered_reports,})

@@ -22,6 +22,10 @@
             color: #ffffff;
         }
 
+        .filter {
+            align-items: center;
+        }
+
         .reports-container {
             display: flex;
             flex-wrap: wrap;
@@ -64,6 +68,11 @@
             font-size: 14px;
         }
 
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #004299;
+        }
+
         a, a:hover {
             text-decoration: none;
             color: #0056b3;
@@ -91,6 +100,17 @@
     </nav>
 
     <div class="reports-container">
+        {% block content %}
+            <div class="filter">
+                <form method="get" action="{% url 'report_list' %}">
+                    <h3 align="center">Filter</h3>
+                    <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search from title">
+                    <button class="btn btn-primary" type="submit" name="search">Search</button>
+                </form>
+            </div>
+    </div>
+
+    <div class="reports-container">
         {% for report in reports %}
             <div class="report">
                 <h2 class="report-title">Report {{ report.id }}: {{ report.title }}</h2>
@@ -109,6 +129,7 @@
                 </div>
             </div>
         {% endfor %}
+        {% endblock %}
     </div>
 {% include 'hooknowsapp/footer.html' %}
 </body>
