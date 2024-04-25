@@ -82,51 +82,43 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
         <a class="navbar-brand" href="#">Campus-Confide</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Homepage</a>
-                </li>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Homepage</a>
+            </li>
+            <li class="nav-item">
                 {% if not user.is_staff %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'create_report'%}">Create Report</a>
                 </li>
                 {% endif %}
-            </ul>
-        </div>
+            </li>
+        </ul>
     </nav>
 
     <div class="reports-container">
         {% block content %}
-            <div class="filter">
-                <form method="get" action="{% url 'report_list' %}">
-                    <h3 align="center">Filter</h3>
-                    <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search from title">
-                    <button class="btn btn-primary" type="submit" name="search">Search</button>
+        <div class="filter">
+            <div class="d-flex justify-content-center align-items-end mt-4">
+                <form method="get" action="{% url 'report_list' %}" class="d-flex">
+                    <h4 class="mb-0 mr-2">Filter</h4>
+                    <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search from title" class="mr-2">
+                    <button class="btn btn-primary mr-2" type="submit" name="search">Search</button>
                 </form>
+                <a class="btn btn-outline-primary" href="{% url 'report_list' %}">Reset</a>
             </div>
+        </div>
+            
     </div>
 
     <div class="reports-container">
         {% for report in reports %}
-            <div class="report">
+            <div class="report">    
                 <h2 class="report-title">Report {{ report.id }}: {{ report.title }}</h2>
-                <p>Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                <p class="mb-2">Created on: {{ report.created_at|date:"F d, Y H:i" }}</p>
+                <p>Report Type: {{ report.get_issue_type_display }}</p>
                 <p class="submission-type">Report Status: {{ report.submission_status }}</p>
                 <a href="{% url 'one_report' report.id %}">View Report Details</a>
-                <div class="admin-notes">
-                    <p>Admin Notes:</p>
-                    {% for note in report.admin_notes.all %}
-                        <div class="note">
-                            <p>{{ note.created_at|date:"F d, Y H:i" }} - {{ note.note }}</p>
-                        </div>
-                    {% empty %}
-                        <p>No notes from admin.</p>
-                    {% endfor %}
-                </div>
             </div>
         {% endfor %}
         {% endblock %}

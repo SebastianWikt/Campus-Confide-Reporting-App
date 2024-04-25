@@ -111,21 +111,23 @@ def delete_report(request, report_id):
     report = get_object_or_404(Report, id=report_id)
     if request.user == report.user and not request.user.is_staff:
         report.delete()
-        return redirect('home')
+        return redirect('view_user_reports')
     else:
         return redirect('view_user_reports')
 
 def report_list(request):
-    reports = Report.objects.all()
+    reports = Report.objects.filter(user=request.user)
     report_filter = ReportFilter(request.GET, queryset=reports)
+    filtered_reports = reports.order_by('created_at')
+
     if request.user.is_staff:
-        filtered_reports = report_filter.qs
-    else:
-        reports = Report.objects.filter(user=request.user)
+        reports = Report.objects.all()
         report_filter = ReportFilter(request.GET, queryset=reports)
-        if 'search' in request.GET:
-            if request.GET.get('title'):
-                filtered_reports = report_filter.qs
-            else:
-                filtered_reports = reports
-    return render(request, 'hooknowsapp/view_reports.html', {'filter': report_filter, 'reports': filtered_reports,})
+
+    if 'search' in request.GET and request.GET.get('title'):
+        filtered_reports = report_filter.qs
+
+    return render(request, 'hooknowsapp/view_reports.html', {
+        'filter': report_filter,
+        'reports': filtered_reports,
+    })
