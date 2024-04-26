@@ -98,7 +98,7 @@
                 <a class="nav-link" href="{% url 'home' %}">Homepage</a>
             </li>
             <li class="nav-item">
-                {% if not user.is_staff %}
+                {% if not is_site_admin %}
                     <a class="nav-link" href="{% url 'view_user_reports' %}">Return</a>
                 {% else %}
                     <a class="nav-link" href="{% url 'view_reports' %}">Return</a>
@@ -129,7 +129,7 @@
             {% endfor %}
         </div>
         
-        {% if report.user and user.is_staff %}
+        {% if report.user and is_site_admin %}
             <div class="resolved">
                 <form action="{% url 'report_resolved' report.id %}" method="post">
                 {% csrf_token %}
@@ -147,7 +147,7 @@
             </div>
     </div>
         {% endif %}
-        {% if report.user == user and not user.is_staff %}
+        {% if report.user == user and not is_site_admin %}
                 <div class="delete-report">
                     <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#exampleModal">Delete</a>
                     <!-- <a href="{% url 'delete_report' report.id %}" class="btn btn-danger">Delete Report</a> -->
