@@ -11,12 +11,12 @@ class Report(models.Model):
         ('resolved', 'Resolved'),
     )
     ISSUE_TYPES = (
-        ('professors', 'Professors'),
+        ('professors', 'Professor'),
         ('teaching_assistant', 'Teaching Assistant'),
-        ('homework_assignments', 'Homework Assignments'),
+        ('homework_assignments', 'Homework Assignment'),
         ('course_logistics', 'Course Logistics'),
-        ('tests_exams', 'Tests/Exams'),
-        ('others', 'Others'),
+        ('tests_exams', 'Test/Exam'),
+        ('others', 'Other'),
     )
     issue_type = models.CharField(
         max_length=30, 
