@@ -105,7 +105,12 @@
                     <input type="text" name="title" value="{{ request.GET.title }}" placeholder="Search from title" class="mr-2">
                     <button class="btn btn-primary mr-2" type="submit" name="search">Search</button>
                 </form>
-                <a class="btn btn-outline-primary" href="{% url 'report_list' %}">Reset</a>
+                {% if is_site_admin %}
+                    <a class="btn btn-outline-primary" href="{% url 'view_reports' %}">Reset</a>
+                {%else%}
+                    <a class="btn btn-outline-primary" href="{% url 'report_list' %}">Reset</a>
+                {% endif %}
+
             </div>
         </div>
             

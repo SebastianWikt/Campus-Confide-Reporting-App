@@ -139,17 +139,25 @@ def report_list(request):
     reports = Report.objects.filter(user=request.user)
     report_filter = ReportFilter(request.GET, queryset=reports)
     filtered_reports = reports.order_by('created_at')
-    is_site_admin = False
     is_site_admin = request.user.groups.filter(name='Site Admin').exists()
 
     if is_site_admin:
         reports = Report.objects.all()
         report_filter = ReportFilter(request.GET, queryset=reports)
 
-    if 'search' in request.GET and request.GET.get('title'):
-        filtered_reports = report_filter.qs
+    if 'search' in request.GET:
+        title_search = request.GET.get('title')
+        if title_search:
+            filtered_reports = report_filter.qs
+        else:
+            return render(request, 'hooknowsapp/view_reports.html', {
+                'is_site_admin': is_site_admin,
+                'filter': report_filter,
+                'reports': reports,  
+            })
 
     return render(request, 'hooknowsapp/view_reports.html', {
+        'is_site_admin': is_site_admin,
         'filter': report_filter,
         'reports': filtered_reports,
     })
